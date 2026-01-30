@@ -19,7 +19,14 @@ Use cases:
 ## Quickstart
 ```bash
 # clone this repo 
-git clone XXX
+git clone https://github.com/cablecreek/goth-stack.git
+# or 
+git clone git@github.com:cablecreek/goth-stack.git
+
+cd ./goth-stack
+
+# init the environment
+task init
 
 # run locally at http://localhost:3000
 task dev

@@ -124,7 +124,7 @@ func navbar() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<header hx-sync=\"closest header:replace\" hx-push-url=\"true\" class=\"rounded-3xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur\"><div class=\"flex flex-wrap items-center justify-between gap-4\"><div><p class=\"text-[0.65rem] uppercase tracking-[0.45em] text-slate-400\">XXX Starter</p><p class=\"text-base font-semibold text-white\">Go · HTMX · Tailwind</p></div><div class=\"flex flex-wrap items-center gap-2 text-sm\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<header hx-sync=\"closest header:replace\" hx-push-url=\"true\" class=\"rounded-3xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur\"><div class=\"flex flex-wrap items-center justify-between gap-4\"><div><p class=\"text-[0.65rem] uppercase tracking-[0.45em] text-slate-400\">GoTH Stack</p><p class=\"text-base font-semibold text-white\">Go · HTMX · Tailwind  </p></div><div class=\"flex flex-wrap items-center gap-2 text-sm\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
