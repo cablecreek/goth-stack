@@ -1,0 +1,9 @@
+tmp/*
+node_modules/*
+
+.env
+.env.*
+
+# Terraform local state (remove if required)
+*terraform*
+

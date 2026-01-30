@@ -1,0 +1,80 @@
+package views
+
+import (
+	"go_htmx_lambda/data"
+)
+
+templ LogsPage(logs []data.LogEntry) {
+	<div class="space-y-4">
+
+		<section class="space-y-3">
+			@LogsPanel(logs)
+		</section>
+	</div>
+}
+
+templ LogsPanel(logs []data.LogEntry) {
+
+	<div id="logsPanel" class="rounded-xl border border-slate-800 bg-slate-900">
+		<div class="overflow-x-auto text-xs">
+
+      // log table 
+			<table class="min-w-full divide-y divide-slate-800 text-xs">
+
+				<thead class="bg-slate-900/40 text-slate-500">
+					<tr>
+						<th class="px-3 py-2 text-left">ts</th>
+						<th class="px-3 py-2 text-left">lvl</th>
+						<th class="px-3 py-2 text-left">service</th>
+						<th class="px-3 py-2 text-left">message</th>
+						<th class="px-3 py-2 text-left">trace</th>
+					</tr>
+				</thead>
+
+				<tbody class="divide-y divide-slate-800 bg-slate-950/40">
+
+          for _, entry := range logs {
+            @LogsRow(entry)
+          }
+
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+}
+
+templ LogsRow(entry data.LogEntry) {
+
+	<tr class="hover:bg-slate-900/80">
+		<td class="whitespace-nowrap px-3 py-1.5 text-slate-500">{ entry.Timestamp }</td>
+		<td class="whitespace-nowrap px-3 py-1.5">
+			@LevelPill(entry.Level)
+		</td>
+		<td class="whitespace-nowrap px-3 py-1.5 text-[0.7rem] text-slate-300">{ entry.Service }</td>
+		<td class="px-3 py-1.5 text-[0.7rem] text-slate-100">{ entry.Message }</td>
+		<td class="whitespace-nowrap px-3 py-1.5 text-[0.7rem] text-slate-500">{ entry.TraceID }</td>
+	</tr>
+
+}
+
+templ LevelPill(level string) {
+	{{
+
+		base := "inline-flex items-center rounded-full px-2 py-0.5 text-[0.65rem] font-semibold border "
+		color := "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+		switch level {
+		case "ERROR":
+			color = "bg-red-500/10 text-red-300 border-red-500/30"
+		case "WARN":
+			color = "bg-amber-500/10 text-amber-300 border-amber-500/30"
+		case "INFO":
+			color = "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+		}
+		cls := base + color
+
+	}}
+
+	<span class={ cls }>{ level }</span>
+
+}

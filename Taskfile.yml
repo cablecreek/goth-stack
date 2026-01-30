@@ -1,0 +1,64 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+# Edit these!
+vars:
+  APP_NAME: my-app
+  AWS_REGION: us-east-1
+  PROFILE: default # aws soo profile
+  CONTAINER_TOOL: podman # podman or docker
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - go-task --list
+
+  init:
+    desc: initiate env and install dependancies
+    cmds:
+      - go-task init:infra
+      - go install github.com/air-verse/air@latest
+      - go install github.com/a-h/templ/cmd/templ@latest
+      - curl https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js -o ./static/htmx.min.js
+      - npm install tailwindcss @tailwindcss/cli
+      - cd ./infra/ && terraform init
+
+  dev:
+    desc: run air with a hot reload
+    cmds:
+      - air
+
+  build:
+    desc: build container
+    cmds:
+      - podman build -t {{ .APP_NAME }} .
+
+  run:
+    desc: run container locally
+    cmds:
+      - podman run -p 8080:8080 {{ .APP_NAME }}
+
+  deploy:
+    desc: deploy app to lambda and ecr
+    dir: ./infra/
+    cmds:
+      - |
+        terraform apply --auto-approve \
+          --var app_name={{ .APP_NAME}} \
+          --var aws_profile={{ .PROFILE }} \
+          --var aws_region={{ .AWS_REGION }} \
+          --var container_tool={{ .CONTAINER_TOOL }}
+
+  destroy:
+    desc: destroy aws resources
+    prompt: This will destroy all resources... Do you want to continue?
+    dir: ./infra/
+    cmds:
+      - |
+        terraform destroy --auto-approve \
+          --var app_name={{ .APP_NAME}} \
+          --var aws_profile={{ .PROFILE }}\
+          --var aws_region={{ .AWS_REGION }} \
+          --var container_tool={{ .CONTAINER_TOOL }}

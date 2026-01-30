@@ -1,0 +1,56 @@
+package views
+
+import (
+	"go_htmx_lambda/data"
+)
+
+templ Index(metrics []data.Metric, logs []data.LogEntry) {
+	<div class="space-y-6">
+		<div class="flex flex-row rounded-xl border border-slate-800 bg-slate-900 p-4 gap-4">
+
+				<button
+					hx-get="/health"
+					hx-target="#cards"
+					hx-swap="afterbegin"
+					class="rounded-md border border-slate-700 px-3 py-1.5 text-slate-100 hover:border-slate-500"
+				>
+					Ping health
+				</button>
+
+		</div>
+
+		<div id="cards" class="grid gap-4 md:grid-cols-3">
+			for _, metric := range metrics {
+				@MetricCard(metric)
+			}
+		</div>
+
+	</div>
+}
+
+//===================================================================
+// cards
+//===================================================================
+
+templ HealthCard(health data.Health) {
+<div class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+
+  <p class="text-xs uppercase tracking-[0.2em] text-slate-400"> HEALTH @ { health.Timestamp }</p>
+
+  if health.Value == "ok"{
+    <p class="mt-2 text-2xl font-semibold text-green-500">{ health.Value }</p>
+  }else{
+    <p class="mt-2 text-2xl font-semibold text-red-500">{ health.Value }</p>
+}
+
+</div>
+  
+}
+
+templ MetricCard(metric data.Metric) {
+<div class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+  <p class="text-xs uppercase tracking-[0.2em] text-slate-400">{ metric.Label }</p>
+  <p class="mt-2 text-2xl font-semibold text-slate-50">{ metric.Value }</p>
+</div>
+
+}

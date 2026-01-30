@@ -1,0 +1,74 @@
+package views
+
+templ SPA(content templ.Component, title string) {
+<!DOCTYPE html>
+<html lang="en">
+  @head(title)
+<body class="min-h-screen bg-slate-950 text-slate-100 font-[family:'Space_Grotesk',sans-serif]">
+  <div class="relative isolate min-h-screen overflow-hidden">
+
+    <div class="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-10">
+      @navbar()
+      <main id="mainContent" class="flex-1 space-y-8 pb-12">
+        @content
+      </main>
+    </div>
+  </div>
+</body>
+</html>
+
+}
+
+templ head(title string) {
+
+<head>
+  <title>{ title }</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<script src="./static/htmx.min.js"></script>
+  <link href="./static/output.css" rel="stylesheet">
+  <link rel="icon" href="./static/favicon.ico" />
+
+</head>
+}
+
+templ navbar(){
+<header
+	hx-sync="closest header:replace"
+	hx-push-url="true"
+	class="rounded-3xl border border-white/10 bg-white/5 px-6 py-5 backdrop-blur"
+>
+	<div class="flex flex-wrap items-center justify-between gap-4">
+		<div>
+			<p class="text-[0.65rem] uppercase tracking-[0.45em] text-slate-400">XXX Starter</p>
+			<p class="text-base font-semibold text-white">Go · HTMX · Tailwind</p>
+		</div>
+		<div class="flex flex-wrap items-center gap-2 text-sm">
+			{{
+			link := "rounded-full border border-white/10 px-4 py-2 text-slate-200 transition hover:border-white/40 hover:text-white"
+			}}
+			<a
+				href="/"
+				hx-get="/"
+				hx-select="#mainContent"
+				hx-target="#mainContent"
+				hx-swap="outerHTML"
+				class={ link }
+			>
+				Overview
+			</a>
+			<a
+				href="/logs"
+				hx-get="/logs"
+				hx-select="#mainContent"
+				hx-target="#mainContent"
+				hx-swap="outerHTML"
+				class={ link }
+			>
+				Logs
+			</a>
+		</div>
+	</div>
+</header>
+}
